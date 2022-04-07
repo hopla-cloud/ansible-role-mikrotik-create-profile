@@ -50,7 +50,7 @@
       ca {{id_client}}_CA.crt
       cert cert_export_{{username}}.crt
       key cert_export_{{username}}.key
-
+      route 
 - name: Génération fichier .ovpn
   copy:
     dest: "/etc/test.cfg"
