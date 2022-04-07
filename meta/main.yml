@@ -1,5 +1,5 @@
 galaxy_info:
-  role_name: mikrotik-create-profile
+  role_name: mikrotik_create_profile
   author: hoplacloud
   description: Hopla.cloud role for ansible to create profile on openvpn
   license: GPLv3
