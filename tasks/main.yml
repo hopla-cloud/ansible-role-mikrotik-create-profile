@@ -1,8 +1,9 @@
 ---
 # tasks file for hoplacloud.mikrotik-create-profile
-- name: generate random password
+- name: Init vars
   set_fact:
-    password: "{{ lookup('password', 'passwords length=12') }}"
+    passphrase: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters,digits,hexdigits') }}"
+    password: "{{ lookup('password', '/dev/null length=12 chars=ascii_letters,digits,hexdigits') }}"
 
 - debug:
-    msg: "Randomly generated password is : {{ password }}"
+    msg: "Randomly generated password is : {{ password }} and passphrase is : {{ passphrase }}"
