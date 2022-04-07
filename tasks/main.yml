@@ -7,3 +7,23 @@
 
 - debug:
     msg: "Randomly generated password is : {{ password }} and passphrase is : {{ passphrase }}"
+
+- name: Création du compte
+  community.routeros.command:
+    commands:
+          - /ppp secret add name={{ username }} service=ovpn password={{ passphrase }} profile=openvpn
+
+- name: Création du template de certificat pour le secret
+  community.routeros.command:
+    commands:
+          - /certificate add name="{{ username }}-template" common-name={{ username }} days-valid={{ days_valid }}
+
+- name: Signature avec le certificat
+  community.routeros.command:
+    commands:
+          - /certificate sign "{{ username }}-template" ca={{ id_client }}_CA name={{ username }}
+
+- name: Export dans les fichier et création du mdp
+  community.routeros.command:
+    commands:
+          - /certificate export-certificate {{ username }} export-passphrase={{ password }}
