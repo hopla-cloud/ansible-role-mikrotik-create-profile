@@ -32,7 +32,7 @@
       client
       dev tun
       proto tcp-client
-      remote {{openstack.metadata.ssh_pub_ip}} 1194
+      remote {{ openstack.metadata.ssh_pub_ip }} 1194
       nobind
       persist-key
       persist-tun
@@ -48,7 +48,7 @@
       cert cert_export_{{username}}.crt
       key cert_export_{{username}}.key
       route
-- name: Génération fichier .ovpn
+- name: Génération fichier .cfg
   copy:
     dest: "/etc/test.cfg"
     content: |
