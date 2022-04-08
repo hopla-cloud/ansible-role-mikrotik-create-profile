@@ -6,7 +6,7 @@
     password: "{{ lookup('password', '/dev/null length=12 chars=ascii_letters,digits,hexdigits') }}"
 
 - debug:
-    msg: "Randomly generated password is : {{ password }} and passphrase is : {{ passphrase }} and Org name is {{ tower_organization_name }}"
+    msg: "Randomly generated password is : {{ password }} and passphrase is : {{ passphrase }} and Org name is {{ awx_inventory_name }}"
 
 - name: Création du compte
   community.routeros.command:
