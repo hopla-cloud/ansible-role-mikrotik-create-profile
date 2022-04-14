@@ -5,9 +5,6 @@
     passphrase: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters,digits,hexdigits') }}"
     password: "{{ lookup('password', '/dev/null length=12 chars=ascii_letters,digits,hexdigits') }}"
 
-- debug:
-    msg: "Randomly generated password is : {{ password }} and passphrase is : {{ passphrase }}"
-
 - name: Création du compte
   community.routeros.command:
     commands:
@@ -21,7 +18,7 @@
 - name: Signature avec le certificat
   community.routeros.command:
     commands:
-          - /certificate sign "{{ username }}-template" ca={{ id_client }}_CA name={{ username }}
+          - /certificate sign "{{ username }}-template" ca={{ awx_inventory_name }}_CA name={{ username }}
 
 - name: Export dans les fichier et création du mdp
   community.routeros.command:
@@ -50,8 +47,8 @@
       ca {{id_client}}_CA.crt
       cert cert_export_{{username}}.crt
       key cert_export_{{username}}.key
-
-- name: Génération fichier .ovpn
+      route
+- name: Génération fichier .cfg
   copy:
     dest: "/etc/test.cfg"
     content: |
