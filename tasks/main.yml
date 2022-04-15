@@ -44,7 +44,7 @@
 
       auth-user-pass auth.cfg
 
-      ca {{id_client}}_CA.crt
+      ca {{tower_inventory_name}}_CA.crt
       cert cert_export_{{username}}.crt
       key cert_export_{{username}}.key
       route
