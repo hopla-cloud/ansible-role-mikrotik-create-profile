@@ -5,10 +5,22 @@
     passphrase: "{{ lookup('password', '/dev/null length=15 chars=ascii_letters,digits,hexdigits') }}"
     password: "{{ lookup('password', '/dev/null length=12 chars=ascii_letters,digits,hexdigits') }}"
 
+- name: Vérification que le profil n'existe pas
+  routeros_command:
+    commands:
+          - /ppp secret print count-only where name={{username}}
+  register: profile
+
+- name: Arrêt du job si le profil est présent
+  fail:
+    msg: Un profil avec le même nom d'utilisateur est déja présent, vérifiez sur WinBox.
+  when: profile is search("1")
+
 - name: Création du compte
   community.routeros.command:
     commands:
           - /ppp secret add name={{ username }} service=ovpn password={{ passphrase }} profile=openvpn
+  when: profile is search("0")
 
 - name: Création du template de certificat pour le secret
   community.routeros.command:
@@ -27,7 +39,7 @@
 
 - name: Génération fichier .ovpn
   copy:
-    dest: "/etc/test.ovpn"
+    dest: "/etc/{{tower_inventory_name}}_{{username}}.ovpn"
     content: |
       client
       dev tun
@@ -50,13 +62,19 @@
       route
 - name: Génération fichier .cfg
   copy:
-    dest: "/etc/test.cfg"
+    dest: "/etc/{{tower_inventory_name}}_{{username}}.cfg"
     content: |
       {{username}}
       {{passphrase}}
 
-- name: Upload to hoplacloud S3
+- name: Upload to hoplacloud S3 ovpnconf
   s3_sync:
     bucket: ho-corp-ovpnconf
-    file_root: /etc/test.ovpn
+    file_root: /etc/{{tower_inventory_name}}_{{username}}.ovpn
+    ec2_url: https://s3-fr-east-1.pub.hopla.cloud
+
+- name: Upload to hoplacloud S3 configuration file
+  s3_sync:
+    bucket: ho-corp-ovpnconf
+    file_root: /etc/{{tower_inventory_name}}_{{username}}.cfg
     ec2_url: https://s3-fr-east-1.pub.hopla.cloud
