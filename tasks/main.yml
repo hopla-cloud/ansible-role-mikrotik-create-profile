@@ -59,4 +59,4 @@
   s3_sync:
     bucket: ho-corp-ovpnconf
     file_root: /etc/test.ovpn
-    ec2_url: https://s3.fr-east-1.pub.hopla.cloud
+    ec2_url: https://s3-fr-east-1.pub.hopla.cloud
