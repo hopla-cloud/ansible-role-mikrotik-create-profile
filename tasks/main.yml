@@ -59,8 +59,4 @@
   community.aws.s3_sync:
     bucket: ho-corp-ovpnconf
     file_root: /etc/test.ovpn
-<<<<<<< HEAD
     ec2_url: https://s3.fr-east-1.pub.hopla.cloud
-=======
-    ec2_url: https://fr-east-1.pub.hopla.cloud:13000/v3/users/3f2444e7abcb45e28a6ee741e6b99e05/credentials/OS-EC2/68503e2ce3274fdd955bdd549b9b293d
->>>>>>> bd6532c069c3d3f33546574f9bc58cacb5ab23b9
